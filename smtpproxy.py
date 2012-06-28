@@ -69,6 +69,10 @@ class SmtpProxy(smtpd2.SMTPServer):
 			s.quit()
 			self._log.info('%r - Data Error', peer)
 			return '450 Upstream data error'
+		except smtplib.SMTPAuthenticationError:
+			s.quit()
+			self._log.info('%r - Authentication Error', peer)
+			return '535 Upstream Authentication error'
 		self._log.info('%r - OK', peer)
 
 
