@@ -4,23 +4,24 @@ import email.utils
 from email.mime.text import MIMEText
 import sys
 
-if len(sys.argv) < 2:
-	print 'python testsend.py <emailaddress>'
+if len(sys.argv) < 4:
+	print 'python testsend.py <port> <from> <to>'
 	print 'this will try to send to yourself using server on port 1025'
 	sys.exit(100)
 
-email = sys.argv[1]
+port, frm, to = sys.argv[1:4]
+int(port)
 
 # Create the message
 msg = MIMEText('This is the body of the message.')
-msg['To'] = email.utils.formataddr(('Recipient', email))
-msg['From'] = email.utils.formataddr(('Author', email))
+msg['To'] = email.utils.formataddr(('Recipient', frm))
+msg['From'] = email.utils.formataddr(('Author', to))
 msg['Subject'] = 'Simple test message'
 
-server = smtplib.SMTP('127.0.0.1', 1025)
+server = smtplib.SMTP('127.0.0.1', port)
 server.set_debuglevel(True) # show communication with the server
 try:
-	server.sendmail(email, [email], msg.as_string())
+	server.sendmail(frm, [to], msg.as_string())
 finally:
 	server.quit()
 
