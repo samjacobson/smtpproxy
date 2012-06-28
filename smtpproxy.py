@@ -21,7 +21,6 @@
 import smtplib
 import smtpd2
 import asyncore
-import sendmail
 import optparse
 import logging
 import sys
@@ -30,11 +29,11 @@ from logging.handlers import RotatingFileHandler
 
 class SmtpProxy(smtpd2.SMTPServer):
 	"""An Smtp Proxy that is similar to smtpd.PureProxy with a few exceptions:
-		 * Support for SSL/TLS upstream STMP server
-		 * No addition of X-Peer header (intended to be used on local LAN from naive clients to communicate with a modern server)
-		 * Support for async relaying (TBD): use process_message_async which takes a callback with the result
-		 * Support for async getfqdn (TBD): this *can* be a slow operation, so shouldn't stall the server
-		 """
+		* Support for SSL/TLS upstream STMP server
+		* No addition of X-Peer header (intended to be used on local LAN from naive clients to communicate with a modern server)
+		* Support for async relaying (TBD): use process_message_async which takes a callback with the result
+		* Support for async getfqdn (TBD): this *can* be a slow operation, so shouldn't stall the server
+	"""
 
 	def __init__(self, localaddr, remoteaddr, starttls=False, credentials=None, logger=None):
 		self._starttls = starttls
